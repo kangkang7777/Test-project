@@ -5,6 +5,7 @@
     <title>Demo</title>
     <link href="./main.css" rel="stylesheet"/>
     <script src="lib/three.js"></script>
+    <script src="lib/Stats.js"></script>
     <script src="lib/FirstPersonControls.js"></script>
 </head>
 <body >
@@ -15,6 +16,8 @@
     let container;
 
     let camera, scene, renderer, controls, camControl, delta;
+
+    let stats = new Stats();
 
     const clock = new THREE.Clock();
 
@@ -47,13 +50,14 @@
             [ new THREE.IcosahedronGeometry( 100, 8 ), 300 ],
             [ new THREE.IcosahedronGeometry( 100, 4 ), 1000 ],
             [ new THREE.IcosahedronGeometry( 100, 2 ), 2000 ],
-            [ new THREE.IcosahedronGeometry( 100, 1 ), 8000 ]
+            [ new THREE.IcosahedronGeometry( 100, 1 ), 8000 ],
+            [ new THREE.BufferGeometry, 10000 ]
 
         ];
 
         const material = new THREE.MeshLambertMaterial( { color: 0x66ccff, wireframe: true } );
 
-        for ( let j = 0; j < 1000; j ++ ) {
+        for ( let j = 0; j < 10000; j ++ ) {
 
             const lod = new THREE.LOD();
 
@@ -80,6 +84,8 @@
         renderer.setSize( window.innerWidth, window.innerHeight );
         container.appendChild( renderer.domElement );
 
+        document.body.appendChild( stats.dom );
+
         camControl = new THREE.FirstPersonControls(camera, renderer.domElement);
 
         window.addEventListener( 'resize', onWindowResize, false );
@@ -92,9 +98,12 @@
     }
 
     function animate() {
-        camControl.update(10);
+        stats.begin();
+        camControl.update(50);
         requestAnimationFrame( animate );
         render();
+        stats.end();
+
     }
 
     function render() {
