@@ -17,8 +17,9 @@ function myTest()
         [ new THREE.IcosahedronGeometry( 100, 16 ), 50 ],
         [ new THREE.IcosahedronGeometry( 100, 8 ), 300 ],
         [ new THREE.IcosahedronGeometry( 100, 4 ), 1000 ],
-        [ new THREE.IcosahedronGeometry( 100, 2 ), 2000 ],
-        [ new THREE.IcosahedronGeometry( 100, 1 ), 8000 ]
+        [ new THREE.IcosahedronGeometry( 100, 2 ), 2000 ]
+        // ,
+        // [ new THREE.IcosahedronGeometry( 100, 1 ), 8000 ]
         // ,
         // [ new THREE.BufferGeometry, 10000 ]
 
@@ -26,7 +27,7 @@ function myTest()
 
     const material = new THREE.MeshLambertMaterial( { color: 0x66ccff, wireframe: true } );
 
-    for ( let j = 0; j < 8000; j ++ ) {
+    for ( let j = 0; j < 10000; j ++ ) {
 
         const lod = new THREE.LOD();
 
@@ -37,9 +38,8 @@ function myTest()
             mesh.updateMatrix();
             mesh.matrixAutoUpdate = false;
             //mesh.frustumCulled = false;
-            mesh.frustumCulled = true;
+            mesh.frustumCulled = false;
             lod.addLevel( mesh, geometry[ i ][ 1 ] );
-
         }
         //lod.frustumCulled = true;
         lod.position.x = 10000 * ( 0.5 - Math.random() );
