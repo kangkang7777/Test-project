@@ -7,5 +7,6 @@ onmessage = function (event)
 function test(message)
 {
     console.log("子线程："+message);
+    
     postMessage("子线程给发的");
 }
