@@ -1,6 +1,7 @@
 
 let container, camera, scene, renderer, controls, camControl, delta;
 
+let worker;
 let stats = new Stats();
 let cull;
 
@@ -38,7 +39,7 @@ function myTest()
             mesh.updateMatrix();
             mesh.matrixAutoUpdate = false;
             //mesh.frustumCulled = false;
-            mesh.frustumCulled = false;
+            mesh.frustumCulled = true;
             lod.addLevel( mesh, geometry[ i ][ 1 ] );
         }
         //lod.frustumCulled = true;
@@ -87,6 +88,8 @@ function init() {
     //自定义模型的lod以及距离剔除的测试
     myTest();
 
+    workerTest();
+
 }
 
 function onWindowResize() {
@@ -120,4 +123,14 @@ function frustumCullingUpdate()
             }
         }
     })
+}
+
+function workerTest()
+{
+    worker = new Worker('js/worker.js');
+    worker.postMessage("这是主线程向子线程的第一次post测试");
+    worker.onmessage = function (event)
+    {
+        console.log("主线程接收到自线程消息:"+event.data);
+    }
 }
