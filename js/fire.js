@@ -1,6 +1,7 @@
 var fireSim = function () {
     this.material = null;
     this.mesh = null;
+    //颜色就是指火球的三种状态，这三个颜色也会变化，不是固定的
     this.defaultColor = {
         colDark: '#000000',
         colNormal: '#f7a90e',
@@ -10,6 +11,7 @@ var fireSim = function () {
 
 fireSim.prototype.init = function (radius)
 {
+    //火球的生成
     this.material = new THREE.ShaderMaterial({
         uniforms: {
             time: {
@@ -48,6 +50,7 @@ fireSim.prototype.init = function (radius)
 
 fireSim.prototype.setColor = function (prop)
 {
+    //给火球上色
     if (prop.colDark != null) {
         if (typeof prop.colDark === 'string') {
             this.material.uniforms['colDark'].value = Utils.hexToVec3(prop.colDark);

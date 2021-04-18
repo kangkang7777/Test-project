@@ -17,6 +17,7 @@ const clock = new THREE.Clock();
 init();
 animate();
 
+//模型测试
 function myTest()
 {
     //测试用的模型
@@ -59,6 +60,7 @@ function myTest()
         //scene.setRenderList()
     }
 }
+
 function init() {
 
     //场景初始化
@@ -93,7 +95,7 @@ function init() {
     window.addEventListener( 'resize', onWindowResize, false );
 
 
-    //测试
+    //剔除测试
     //cull = new culling();
 
     //自定义模型的lod以及距离剔除的测试
@@ -116,7 +118,6 @@ function animate() {
 
         stats.begin();
         fire.update(20);
-        //fire.update(performance.now() / 1000);
         camControl.update(5);
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
@@ -150,13 +151,6 @@ function workerTest()
     {
         console.log("主线程接收到自线程消息:"+event.data);
     }
-}
-
-function fireTest1()
-{
-    let fireTex = THREE.ImageUtils.loadTexture("assets/textures/firetex.png");
-    fire = new THREE.Fire(fireTex);
-    scene.add(fire);
 }
 
 function fireTest()

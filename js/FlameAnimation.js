@@ -198,12 +198,11 @@ FlameAnimation.prototype.reset = function () {
     this.posX = -1;
     this.currentTime = 0;
     this.timeCount = 0;
-    this.spawnTime = 0;
     this.isObjDie = false;
     this.isInPooling = false;
     this.currentState = FlameAnimation.STATE_BEFORE_START;
     this.colorTransitionRandom = Math.random() * 2000 - 1000;
-    this.instance.getMesh().position.set(0,0,0);
+    this.instance.getMesh().position.set(0, 0, 0);
     this.instance.getMesh().scale.set(0, 0, 0);
     this.instance.setFlowRatio(1);
     this.instance.setOpacity(1);

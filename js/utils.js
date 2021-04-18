@@ -3,10 +3,10 @@ var Utils = function() {
 }
 
 Utils.hexToVec3 = function (col) {
-    var num = parseInt(col.substr(1), 16);
-    var r = (num / 256 / 256) % 256;
-    var g = (num / 256) % 256;
-    var b = num % 256;
+    let num = parseInt(col.substr(1), 16);
+    let r = (num / 256 / 256) % 256;
+    let g = (num / 256) % 256;
+    let b = num % 256;
     return [r / 255.0, g / 255.0, b / 255.0];
 };
 Utils.formatZero = function (val) {
@@ -21,8 +21,8 @@ Utils.vec3ToHex = function (col) {
         this.formatZero(col[2].toString(16));
 };
 Utils.vec3Blend = function (cola, colb, t) {
-    var a = this.hexToVec3(cola);
-    var b = this.hexToVec3(colb);
+    let a = this.hexToVec3(cola);
+    let b = this.hexToVec3(colb);
     return [
         a[0] + (b[0] - a[0]) * t,
         a[1] + (b[1] - a[1]) * t,
