@@ -17,20 +17,38 @@ var fireControl = function ()
     this.currentCol['colDark'] = 0;
     this.currentCol['colNormal'] = 1;
     this.currentCol['colLight'] = 2;
+    this.finished = false;
 }
 
 fireControl.prototype.init = function ()
 {
-    this.objs = [];
-    this.objectPool = [];
-    this.spawnTime = 0;
-    //this.flareParticle = new flareParticle_1.FlareParticle();
-    this.spawnNewFlame();
-    this.reset();
+    //加载glsl文件是异步的，为了防止文件没加载完就开始update，这里设置finished来限制。
+    let scope = this;
+    let loader = new THREE.FileLoader(THREE.DefaultLoadingManager);
+    loader.load("./shader/fragmentFlameShader.glsl", function(str1){
+        loader.load("./shader/vertexFlameShader.glsl", function(str2){
+            fragmentFlameShader = str1;
+            vertexFlameShader = str2;
+            scope.objs = [];
+            scope.objectPool = [];
+            scope.spawnTime = 0;
+            //this.flareParticle = new flareParticle_1.FlareParticle();
+            scope.spawnNewFlame();
+            scope.reset();
+            scope.finished = true;
+        });
+    });
+
+    // this.objs = [];
+    // this.objectPool = [];
+    // this.spawnTime = 0;
+    // //this.flareParticle = new flareParticle_1.FlareParticle();
+    // this.spawnNewFlame();
+    // this.reset();
 }
 
 fireControl.prototype.reset = function () {
-    for (var i = 0; i < this.objs.length; i++) {
+    for (let i = 0; i < this.objs.length; i++) {
         this.objs[i].reset();
         scene.remove(this.objs[i].instance.getMesh());
     }
@@ -61,23 +79,24 @@ fireControl.prototype.spawnNewFlame = function ()
 
 fireControl.prototype.update = function (deltaTime)
 {
-    let timeScale = this.params.TimeScale;
-    this.spawnTime += deltaTime * timeScale;
-    if (this.spawnTime > 200) {
-        while (this.spawnTime > 200)
-            this.spawnTime -= 200;
-        this.spawnNewFlame();
-    }
-    for (let i = 0; i < this.objs.length; i++) {
-        if (this.objs[i].isDie()) {
-            if (this.objs[i].inPolling())
-                continue;
-            this.objs[i].setInPolling(true);
-            this.objs[i].instance.getMesh().visible = false;
-            this.objectPool.push(i);
+    if(this.finished) {
+        let timeScale = this.params.TimeScale;
+        this.spawnTime += deltaTime * timeScale;
+        if (this.spawnTime > 200) {
+            while (this.spawnTime > 200)
+                this.spawnTime -= 200;
+            this.spawnNewFlame();
         }
-        else {
-            this.objs[i].update(deltaTime);
+        for (let i = 0; i < this.objs.length; i++) {
+            if (this.objs[i].isDie()) {
+                if (this.objs[i].inPolling())
+                    continue;
+                this.objs[i].setInPolling(true);
+                this.objs[i].instance.getMesh().visible = false;
+                this.objectPool.push(i);
+            } else {
+                this.objs[i].update(deltaTime);
+            }
         }
     }
     //this.flareParticle.update(deltaTime * timeScale);

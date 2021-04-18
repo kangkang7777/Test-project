@@ -7,9 +7,6 @@ fireSim.prototype.init = function (radius)
 {
     radius = radius || 20;
     let scope = this;
-    let vertexFlameShader = utils.vertexFlameShader;
-    let fragmentFlameShader = utils.fragmentFlameShader;
-
     scope.material = new THREE.ShaderMaterial({
         uniforms: {
             time: {

@@ -3,10 +3,11 @@ let container, camera, scene, renderer, controls, camControl, delta;
 
 let worker;
 let stats = new Stats();
-let cull;
+//let cull;
 let fire;
-let utils = new Utils();
-utils.preLoad();
+let vertexFlameShader = null;
+let fragmentFlameShader = null;
+
 const clock = new THREE.Clock();
 
 init();
@@ -65,6 +66,7 @@ function init() {
 
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog( 0x555555, 1, 15000 );
+    scene.background = new THREE.Color(0xf8f8f8);
 
     const pointLight = new THREE.PointLight( 0xffffff );
     pointLight.position.set( 0, 0, 0 );
@@ -104,15 +106,14 @@ function onWindowResize() {
 }
 
 function animate() {
-    let deltaTime = 20;
-    stats.begin();
-    fire.update(deltaTime);
-    //fire.update(performance.now() / 1000);
-    camControl.update(10);
-    requestAnimationFrame( animate );
-    renderer.render( scene, camera );
-    //frustumCullingUpdate();
-    stats.end();
+        stats.begin();
+        fire.update(20);
+        //fire.update(performance.now() / 1000);
+        camControl.update(5);
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+        //frustumCullingUpdate();
+        stats.end();
 }
 
 function frustumCullingUpdate()
@@ -153,5 +154,5 @@ function fireTest1()
 function fireTest()
 {
     fire = new fireControl();
-    fire.init(scene);
+    fire.init();
 }
