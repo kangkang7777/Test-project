@@ -1,6 +1,6 @@
 var fireControl = function ()
 {
-    this.currentCol = {};
+    this.currentCol = {['colDark']:0,['colNormal']:1,['colLight']:2};
     this.params = {
         LightColor2 : '#ff8700',
         LightColor : '#f7f342',
@@ -14,9 +14,6 @@ var fireControl = function ()
         InvertedBackground : false,
         ShowGrid : true
     };
-    this.currentCol['colDark'] = 0;
-    this.currentCol['colNormal'] = 1;
-    this.currentCol['colLight'] = 2;
     this.finished = false;
 }
 
@@ -38,13 +35,6 @@ fireControl.prototype.init = function ()
             scope.finished = true;
         });
     });
-
-    // this.objs = [];
-    // this.objectPool = [];
-    // this.spawnTime = 0;
-    // //this.flareParticle = new flareParticle_1.FlareParticle();
-    // this.spawnNewFlame();
-    // this.reset();
 }
 
 fireControl.prototype.reset = function () {

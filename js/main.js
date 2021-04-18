@@ -4,9 +4,13 @@ let container, camera, scene, renderer, controls, camControl, delta;
 let worker;
 let stats = new Stats();
 //let cull;
+
+//火焰相关
 let fire;
 let vertexFlameShader = null;
 let fragmentFlameShader = null;
+//火焰的默认位置
+let pos = (0,0,0);
 
 const clock = new THREE.Clock();
 
@@ -62,7 +66,8 @@ function init() {
     document.body.appendChild( container );
 
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 15000 );
-    camera.position.z = 1000;
+    //camera.position.z = 50;
+    camera.position.x = -500;
 
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog( 0x555555, 1, 15000 );
@@ -84,7 +89,9 @@ function init() {
     document.body.appendChild( stats.dom );
 
     camControl = new THREE.FirstPersonControls(camera, renderer.domElement);
+
     window.addEventListener( 'resize', onWindowResize, false );
+
 
     //测试
     //cull = new culling();
@@ -106,6 +113,7 @@ function onWindowResize() {
 }
 
 function animate() {
+
         stats.begin();
         fire.update(20);
         //fire.update(performance.now() / 1000);

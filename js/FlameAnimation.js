@@ -40,8 +40,6 @@ FlameAnimation.prototype.init = function(instance, distX, distZ, yRatio, animati
     }
 
 FlameAnimation.prototype.setColor = function () {
-    //var this.params = controller_1.Controller.getParams();
-
     let tc = this.timeCount + this.colorTransitionRandom;
     if (tc < 2500 + this.colorTransitionRandom) {
         let t = tc / 2500 + this.colorTransitionRandom;
@@ -205,7 +203,7 @@ FlameAnimation.prototype.reset = function () {
     this.isInPooling = false;
     this.currentState = FlameAnimation.STATE_BEFORE_START;
     this.colorTransitionRandom = Math.random() * 2000 - 1000;
-    this.instance.getMesh().position.set(0, 0, 0);
+    this.instance.getMesh().position.set(0,0,0);
     this.instance.getMesh().scale.set(0, 0, 0);
     this.instance.setFlowRatio(1);
     this.instance.setOpacity(1);

@@ -1,20 +1,5 @@
 var Utils = function() {
-    this.vertexFlameShader = null;
-    this.fragmentFlameShader = null;
-    this.finished = false;
-}
 
-Utils.prototype.preLoad = function ()
-{
-    let scope = this;
-    let loader = new THREE.FileLoader(THREE.DefaultLoadingManager);
-    loader.load("./shader/fragmentFlameShader.glsl", function(str1){
-        loader.load("./shader/vertexFlameShader.glsl", function(str2){
-            scope.fragmentFlameShader = str1;
-            scope.vertexFlameShader = str2;
-            scope.finished = true;
-        });
-    });
 }
 
 Utils.hexToVec3 = function (col) {

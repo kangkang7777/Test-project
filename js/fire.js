@@ -1,13 +1,16 @@
 var fireSim = function () {
     this.material = null;
     this.mesh = null;
+    this.defaultColor = {
+        colDark: '#000000',
+        colNormal: '#f7a90e',
+        colLight: '#ede92a'
+    };
 }
 
 fireSim.prototype.init = function (radius)
 {
-    radius = radius || 20;
-    let scope = this;
-    scope.material = new THREE.ShaderMaterial({
+    this.material = new THREE.ShaderMaterial({
         uniforms: {
             time: {
                 type: "f",
@@ -26,66 +29,20 @@ fireSim.prototype.init = function (radius)
                 value: 1
             },
             colLight: {
-                value: Utils.hexToVec3(fireSim.defaultColor.colLight)
+                value: Utils.hexToVec3(this.defaultColor.colLight)
             },
             colNormal: {
-                value: Utils.hexToVec3(fireSim.defaultColor.colNormal)
+                value: Utils.hexToVec3(this.defaultColor.colNormal)
             },
             colDark: {
-                value: Utils.hexToVec3(fireSim.defaultColor.colDark)
+                value: Utils.hexToVec3(this.defaultColor.colDark)
             }
         },
         vertexShader: vertexFlameShader,
         fragmentShader: fragmentFlameShader
     });
-    scope.mesh = new THREE.Mesh(new THREE.IcosahedronGeometry(radius, 3), this.material);
-    scope.mesh.position.set(0, 0, 0);
-
-    //let loader = new THREE.FileLoader(THREE.DefaultLoadingManager);
-    // loader.load("./shader/fragmentFlameShader.glsl", function(str1){
-    //     loader.load("./shader/vertexFlameShader.glsl", function(str2){
-    //         fragmentFlameShader = str1;
-    //         vertexFlameShader = str2;
-    //         //材质
-    //         scope.material = new THREE.ShaderMaterial({
-    //             uniforms: {
-    //                 time: {
-    //                     type: "f",
-    //                     value: 0.0
-    //                 },
-    //                 seed: {
-    //                     type: 'f',
-    //                     value: Math.random() * 1000.0
-    //                 },
-    //                 detail: {
-    //                     type: 'f',
-    //                     value: Math.random() * 3.5 + 5
-    //                 },
-    //                 opacity: {
-    //                     type: 'f',
-    //                     value: 1
-    //                 },
-    //                 colLight: {
-    //                     value: Utils.hexToVec3(fireSim.defaultColor.colLight)
-    //                 },
-    //                 colNormal: {
-    //                     value: Utils.hexToVec3(fireSim.defaultColor.colNormal)
-    //                 },
-    //                 colDark: {
-    //                     value: Utils.hexToVec3(fireSim.defaultColor.colDark)
-    //                 }
-    //             },
-    //             vertexShader: vertexFlameShader,
-    //             fragmentShader: fragmentFlameShader
-    //         });
-    //         scope.mesh = new THREE.Mesh(new THREE.IcosahedronGeometry(radius, 3), this.material);
-    //         scope.mesh.position.set(0, 0, 0);
-    //     });
-    // });
-    // this.mesh = new THREE.Mesh(new THREE.IcosahedronGeometry(radius, 3), this.material);
-    // this.mesh.position.set(0, 0, 0);
-    //this.material.transparent = true;
-
+    this.mesh = new THREE.Mesh(new THREE.IcosahedronGeometry(radius, 3), this.material);
+    this.mesh.position.set(0,0,0);
 }
 
 
@@ -137,8 +94,3 @@ fireSim.prototype.getMesh = function () {
     return this.mesh;
 };
 
-fireSim.defaultColor = {
-    colDark: '#000000',
-    colNormal: '#f7a90e',
-    colLight: '#ede92a'
-};
