@@ -6,7 +6,7 @@ let stats = new Stats();
 //let cull;
 
 //火焰相关
-let fire;
+let Fire;
 let vertexFlameShader = null;
 let fragmentFlameShader = null;
 //火焰的默认位置
@@ -117,7 +117,7 @@ function onWindowResize() {
 function animate() {
 
         stats.begin();
-        fire.update(20);
+        Fire.update(20);
         camControl.update(5);
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
@@ -155,6 +155,6 @@ function workerTest()
 
 function fireTest()
 {
-    fire = new fireControl();
-    fire.init();
+    Fire = new fireControl();
+    Fire.init();
 }

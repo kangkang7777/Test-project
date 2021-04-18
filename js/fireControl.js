@@ -57,9 +57,9 @@ fireControl.prototype.spawnNewFlame = function ()
         this.objs[i].reset();
     }
     else {
-        let temp = new fireSim();
+        let temp = new fire();
         temp.init(Math.random() * 5 + 8)
-        let obj = new FlameAnimation();
+        let obj = new fireAnimation();
         obj.init(temp, Math.random() * 7 - 4, Math.random() * 7 - 4, Math.random() * 0.4 + 0.35, Math.random() * 0.4 + 0.3);
         obj.instance.setColor(this.currentCol);
         this.objs.push(obj);

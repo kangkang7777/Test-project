@@ -1,14 +1,14 @@
-var FlameAnimation = function () {
-    FlameAnimation.STATE_BEFORE_START = 0;
-    FlameAnimation.STATE_SPAWN = 1;
-    FlameAnimation.STATE_SPAWN_DOWN = 2;
-    FlameAnimation.STATE_FLOATING = 3;
-    FlameAnimation.STATE_IDLE = 4;
-    FlameAnimation.BEFORE_INTERVAL = 300;
-    FlameAnimation.SPAWN_INTERVAL = 400;
-    FlameAnimation.SPAWN_DOWN_INTERVAL = 2000;
-    FlameAnimation.FLOATING_INTERVAL = 8000;
-    FlameAnimation.IDLE_INTERVAL = 20000;
+var fireAnimation = function () {
+    fireAnimation.STATE_BEFORE_START = 0;
+    fireAnimation.STATE_SPAWN = 1;
+    fireAnimation.STATE_SPAWN_DOWN = 2;
+    fireAnimation.STATE_FLOATING = 3;
+    fireAnimation.STATE_IDLE = 4;
+    fireAnimation.BEFORE_INTERVAL = 300;
+    fireAnimation.SPAWN_INTERVAL = 400;
+    fireAnimation.SPAWN_DOWN_INTERVAL = 2000;
+    fireAnimation.FLOATING_INTERVAL = 8000;
+    fireAnimation.IDLE_INTERVAL = 20000;
 
     this.params = {
         LightColor2 : '#ff8700',
@@ -26,7 +26,7 @@ var FlameAnimation = function () {
 
 }
 
-FlameAnimation.prototype.init = function(instance, distX, distZ, yRatio, animationTimeRatio) {
+fireAnimation.prototype.init = function(instance, distX, distZ, yRatio, animationTimeRatio) {
         distX = distX || 0;
         distZ = distZ || 0;
         yRatio = yRatio || 1;
@@ -39,7 +39,7 @@ FlameAnimation.prototype.init = function(instance, distX, distZ, yRatio, animati
         this.reset();
     }
 
-FlameAnimation.prototype.setColor = function () {
+fireAnimation.prototype.setColor = function () {
     let tc = this.timeCount + this.colorTransitionRandom;
     if (tc < 2500 + this.colorTransitionRandom) {
         let t = tc / 2500 + this.colorTransitionRandom;
@@ -91,67 +91,67 @@ FlameAnimation.prototype.setColor = function () {
     }
 };
 
-FlameAnimation.prototype.updateState = function (deltaTime) {
+fireAnimation.prototype.updateState = function (deltaTime) {
     var cTime = this.currentTime + deltaTime;
-    if (this.currentState === FlameAnimation.STATE_BEFORE_START) {
-        if (cTime > FlameAnimation.BEFORE_INTERVAL) {
-            cTime -= FlameAnimation.BEFORE_INTERVAL;
-            this.currentState = FlameAnimation.STATE_SPAWN;
+    if (this.currentState === fireAnimation.STATE_BEFORE_START) {
+        if (cTime > fireAnimation.BEFORE_INTERVAL) {
+            cTime -= fireAnimation.BEFORE_INTERVAL;
+            this.currentState = fireAnimation.STATE_SPAWN;
         }
     }
-    else if (this.currentState === FlameAnimation.STATE_SPAWN) {
-        if (cTime > FlameAnimation.SPAWN_INTERVAL) {
-            cTime -= FlameAnimation.SPAWN_INTERVAL;
+    else if (this.currentState === fireAnimation.STATE_SPAWN) {
+        if (cTime > fireAnimation.SPAWN_INTERVAL) {
+            cTime -= fireAnimation.SPAWN_INTERVAL;
             this.posX = -1;
-            this.currentState = FlameAnimation.STATE_SPAWN_DOWN;
+            this.currentState = fireAnimation.STATE_SPAWN_DOWN;
         }
     }
-    else if (this.currentState === FlameAnimation.STATE_SPAWN_DOWN) {
-        if (cTime > FlameAnimation.SPAWN_DOWN_INTERVAL) {
-            cTime -= FlameAnimation.SPAWN_DOWN_INTERVAL;
-            this.currentState = FlameAnimation.STATE_FLOATING;
+    else if (this.currentState === fireAnimation.STATE_SPAWN_DOWN) {
+        if (cTime > fireAnimation.SPAWN_DOWN_INTERVAL) {
+            cTime -= fireAnimation.SPAWN_DOWN_INTERVAL;
+            this.currentState = fireAnimation.STATE_FLOATING;
         }
     }
-    else if (this.currentState === FlameAnimation.STATE_FLOATING) {
-        if (cTime > FlameAnimation.FLOATING_INTERVAL) {
+    else if (this.currentState === fireAnimation.STATE_FLOATING) {
+        if (cTime > fireAnimation.FLOATING_INTERVAL) {
             this.randFlyX += Math.random() * 0.2;
             this.randFlyZ += Math.random() * 0.2;
-            cTime -= FlameAnimation.FLOATING_INTERVAL;
+            cTime -= fireAnimation.FLOATING_INTERVAL;
             this.posX = -1;
-            this.currentState = FlameAnimation.STATE_IDLE;
+            this.currentState = fireAnimation.STATE_IDLE;
         }
     }
-    else if (this.currentState === FlameAnimation.STATE_IDLE) {
-        if (cTime > FlameAnimation.IDLE_INTERVAL) {
+    else if (this.currentState === fireAnimation.STATE_IDLE) {
+        if (cTime > fireAnimation.IDLE_INTERVAL) {
             this.isObjDie = true;
         }
     }
     this.currentTime = cTime;
 };
 
-FlameAnimation.prototype.update = function (deltaTime) {
+fireAnimation.prototype.update = function (deltaTime) {
     if (this.isObjDie)
         return;
     let mesh = this.instance.getMesh();
     let timeScale = this.params.TimeScale;
     this.updateState(deltaTime * timeScale);
     this.timeCount += deltaTime * timeScale;
-    if (this.currentState === FlameAnimation.STATE_SPAWN) {
-        let t = this.currentTime / FlameAnimation.SPAWN_INTERVAL;
-        let t2 = this.currentTime / (FlameAnimation.SPAWN_INTERVAL + FlameAnimation.SPAWN_DOWN_INTERVAL);
+    if (this.currentState === fireAnimation.STATE_SPAWN) {
+        let t = this.currentTime / fireAnimation.SPAWN_INTERVAL;
+        let t2 = this.currentTime / (fireAnimation.SPAWN_INTERVAL + fireAnimation.SPAWN_DOWN_INTERVAL);
         mesh.position.set(this.distX * t2, mesh.position.y + t * 0.4 * this.yRatio * timeScale, this.distZ * t2);
         var scale = t;
         mesh.scale.set(scale, scale, scale);
     }
-    else if (this.currentState === FlameAnimation.STATE_SPAWN_DOWN) {
-        let t2 = (this.currentTime + FlameAnimation.SPAWN_INTERVAL) /
-            (FlameAnimation.SPAWN_INTERVAL + FlameAnimation.SPAWN_DOWN_INTERVAL);
+    else if (this.currentState === fireAnimation.STATE_SPAWN_DOWN) {
+        let t2 = (this.currentTime + fireAnimation.SPAWN_INTERVAL) /
+            (fireAnimation.SPAWN_INTERVAL + fireAnimation.SPAWN_DOWN_INTERVAL);
         mesh.position.set(this.distX * t2, mesh.position.y +
             (0.6 * timeScale *
-                (1 - this.currentTime / FlameAnimation.SPAWN_DOWN_INTERVAL) +
+                (1 - this.currentTime / fireAnimation.SPAWN_DOWN_INTERVAL) +
                 0.2 * timeScale) * this.yRatio, this.distZ * t2);
     }
-    else if (this.currentState === FlameAnimation.STATE_FLOATING) {
+    else if (this.currentState === fireAnimation.STATE_FLOATING) {
         if (this.posX === -1) {
             this.posX = mesh.position.x;
             this.posY = mesh.position.y;
@@ -162,7 +162,7 @@ FlameAnimation.prototype.update = function (deltaTime) {
         let scale = mesh.scale.x + 0.003 * timeScale;
         mesh.scale.set(scale, scale, scale);
     }
-    else if (this.currentState === FlameAnimation.STATE_IDLE) {
+    else if (this.currentState === fireAnimation.STATE_IDLE) {
         if (this.posX === -1) {
             this.posX = mesh.position.x;
             this.posY = mesh.position.y;
@@ -170,8 +170,8 @@ FlameAnimation.prototype.update = function (deltaTime) {
             this.instance.setFlowRatio(0.2);
         }
         mesh.position.setY(this.posY + this.currentTime / 100);
-        if (this.currentTime > FlameAnimation.IDLE_INTERVAL - 5000) {
-            this.instance.setOpacity(1 - (this.currentTime - (FlameAnimation.IDLE_INTERVAL - 5000)) / 5000);
+        if (this.currentTime > fireAnimation.IDLE_INTERVAL - 5000) {
+            this.instance.setOpacity(1 - (this.currentTime - (fireAnimation.IDLE_INTERVAL - 5000)) / 5000);
         }
         let scale = mesh.scale.x + 0.002 * timeScale;
         mesh.scale.set(scale, scale, scale);
@@ -180,19 +180,19 @@ FlameAnimation.prototype.update = function (deltaTime) {
     this.instance.update(deltaTime * timeScale * this.animationTimeRatio);
 };
 
-FlameAnimation.prototype.isDie = function () {
+fireAnimation.prototype.isDie = function () {
     return this.isObjDie;
 };
 
-FlameAnimation.prototype.inPolling = function () {
+fireAnimation.prototype.inPolling = function () {
     return this.isInPooling;
 };
 
-FlameAnimation.prototype.setInPolling = function (val) {
+fireAnimation.prototype.setInPolling = function (val) {
     this.isInPooling = val;
 };
 
-FlameAnimation.prototype.reset = function () {
+fireAnimation.prototype.reset = function () {
     this.randFlyX = Math.random() * 0.1 - 0.05;
     this.randFlyZ = Math.random() * 0.1 - 0.05;
     this.posX = -1;
@@ -200,7 +200,7 @@ FlameAnimation.prototype.reset = function () {
     this.timeCount = 0;
     this.isObjDie = false;
     this.isInPooling = false;
-    this.currentState = FlameAnimation.STATE_BEFORE_START;
+    this.currentState = fireAnimation.STATE_BEFORE_START;
     this.colorTransitionRandom = Math.random() * 2000 - 1000;
     this.instance.getMesh().position.set(0, 0, 0);
     this.instance.getMesh().scale.set(0, 0, 0);

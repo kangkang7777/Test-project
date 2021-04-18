@@ -1,4 +1,4 @@
-var fireSim = function () {
+var fire = function () {
     this.material = null;
     this.mesh = null;
     //颜色就是指火球的三种状态，这三个颜色也会变化，不是固定的
@@ -9,7 +9,7 @@ var fireSim = function () {
     };
 }
 
-fireSim.prototype.init = function (radius)
+fire.prototype.init = function (radius)
 {
     //火球的生成
     this.material = new THREE.ShaderMaterial({
@@ -48,7 +48,7 @@ fireSim.prototype.init = function (radius)
 }
 
 
-fireSim.prototype.setColor = function (prop)
+fire.prototype.setColor = function (prop)
 {
     //给火球上色
     if (prop.colDark != null) {
@@ -77,23 +77,23 @@ fireSim.prototype.setColor = function (prop)
     }
 };
 
-fireSim.prototype.setOpacity = function (value) {
+fire.prototype.setOpacity = function (value) {
     this.material.uniforms['opacity'].value = value;
 };
 
-fireSim.prototype.setDetail = function (value) {
+fire.prototype.setDetail = function (value) {
     this.material.uniforms['detail'].value = value;
 };
 
-fireSim.prototype.update = function (timeDiff) {
+fire.prototype.update = function (timeDiff) {
     this.material.uniforms['time'].value += .0005 * timeDiff * this.flowRatio;
 };
 
-fireSim.prototype.setFlowRatio = function (val) {
+fire.prototype.setFlowRatio = function (val) {
     this.flowRatio = val;
 };
 
-fireSim.prototype.getMesh = function () {
+fire.prototype.getMesh = function () {
     return this.mesh;
 };
 
