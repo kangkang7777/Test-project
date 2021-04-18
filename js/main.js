@@ -4,7 +4,9 @@ let container, camera, scene, renderer, controls, camControl, delta;
 let worker;
 let stats = new Stats();
 let cull;
-
+let fire;
+let utils = new Utils();
+utils.preLoad();
 const clock = new THREE.Clock();
 
 init();
@@ -83,13 +85,16 @@ function init() {
     window.addEventListener( 'resize', onWindowResize, false );
 
     //测试
-    cull = new culling();
+    //cull = new culling();
 
     //自定义模型的lod以及距离剔除的测试
-    myTest();
+    //myTest();
 
-    workerTest();
+    //多线程测试
+    //workerTest();
 
+    //火焰测试
+    fireTest();
 }
 
 function onWindowResize() {
@@ -99,7 +104,10 @@ function onWindowResize() {
 }
 
 function animate() {
+    let deltaTime = 20;
     stats.begin();
+    fire.update(deltaTime);
+    //fire.update(performance.now() / 1000);
     camControl.update(50);
     requestAnimationFrame( animate );
     renderer.render( scene, camera );
@@ -133,4 +141,17 @@ function workerTest()
     {
         console.log("主线程接收到自线程消息:"+event.data);
     }
+}
+
+function fireTest1()
+{
+    let fireTex = THREE.ImageUtils.loadTexture("assets/textures/firetex.png");
+    fire = new THREE.Fire(fireTex);
+    scene.add(fire);
+}
+
+function fireTest()
+{
+    fire = new fireControl();
+    fire.init(scene);
 }
