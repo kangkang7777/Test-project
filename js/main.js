@@ -108,7 +108,7 @@ function animate() {
     stats.begin();
     fire.update(deltaTime);
     //fire.update(performance.now() / 1000);
-    camControl.update(50);
+    camControl.update(10);
     requestAnimationFrame( animate );
     renderer.render( scene, camera );
     //frustumCullingUpdate();
