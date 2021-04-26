@@ -183,21 +183,23 @@ uniform float time;
 uniform float seed;
 uniform float detail;
 
+//给定顶点，返回0-1的一个柏林模糊值？
 float turbulence( vec3 p ) {
-  float w = 100.0;
-  float t = -.5;
+  float t = -0.5;
   for (float f = 1.0 ; f <= 10.0 ; f++ ){
     float power = pow( 2.0, f );
-    t += abs( pnoise( vec3( power * p ), vec3( 10.0, 10.0, 10.0 ) ) / power );
+    //t += abs( pnoise( vec3( power * p ), vec3( 10.0, 10.0, 10.0 ) ) / power );
+    t += abs( cnoise( vec3( power * p ) ) / power );
   }
   return t;
 }
 
 void main() {
 
-  noise = detail *  -.10 * turbulence( 0.6 * normal + time + seed );
-  float b = 2.0 * pnoise( 0.05 * position + vec3( 2.0 * time ), vec3( 100.0 ) );
-  float displacement = - 10. * noise + b;
+  noise = detail *  -0.10 * turbulence( 0.6 * normal + time + seed );
+  //float b = 2.0 * pnoise( 0.05 * position + vec3( 2.0 * time ), vec3( 100.0 ) );
+  float b = 2.0 * cnoise( 0.05 * position + vec3( 2.0 * time ));
+  float displacement = - 10.0 * noise + b;
   
   vec3 newPosition = position + normal * displacement;
   gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
