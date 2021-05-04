@@ -1,19 +1,8 @@
 var fireControl = function ()
 {
     this.currentCol = {['colDark']:0,['colNormal']:1,['colLight']:2};
-    this.params = {
-        LightColor2 : '#ff8700',
-        LightColor : '#f7f342',
-        NormalColor : '#f7a90e',
-        DarkColor2 : '#ff9800',
-        GreyColor : '#3c342f',
-        DarkColor : "#181818",
-        TimeScale : 3,
-        ParticleSpread : 1,
-        ParticleColor : '#ffb400',
-        InvertedBackground : false,
-        ShowGrid : true
-    };
+    this.fireScale = 2;//整个火焰模型的整体scale
+    this.TimeScale = 3 ;//火焰速度
     this.finished = false;
 }
 
@@ -58,9 +47,9 @@ fireControl.prototype.spawnNewFlame = function ()
     }
     else {
         let temp = new fire();
-        temp.init(Math.random() * 5 + 8)
+        temp.init((Math.random() * 5 + 8) * this.fireScale)
         let obj = new fireAnimation();
-        obj.init(temp, Math.random() * 7 - 4, Math.random() * 7 - 4, Math.random() * 0.4 + 0.35, Math.random() * 0.4 + 0.3);
+        obj.init(temp,Math.random() * 7 - 4, Math.random() * 7 - 4, Math.random() * 0.4 + 0.35, Math.random() * 0.4 + 0.3);
         obj.instance.setColor(this.currentCol);
         this.objs.push(obj);
         scene.add(this.objs[i].instance.getMesh());
@@ -70,7 +59,7 @@ fireControl.prototype.spawnNewFlame = function ()
 fireControl.prototype.update = function (deltaTime)
 {
     if(this.finished) {
-        let timeScale = this.params.TimeScale;
+        let timeScale = this.TimeScale;
         this.spawnTime += deltaTime * timeScale;
         if (this.spawnTime > 200) {
             while (this.spawnTime > 200)
