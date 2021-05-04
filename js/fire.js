@@ -1,6 +1,7 @@
 var fire = function () {
     this.material = null;
     this.mesh = null;
+    this.fireScale = 2;
     //颜色就是指火球的三种状态，这三个颜色也会变化，不是固定的
     this.defaultColor = {
         colDark: '#000000',
@@ -20,11 +21,11 @@ fire.prototype.init = function (radius)
             },
             seed: {
                 type: 'f',
-                value: Math.random() * 1000.0
+                value: (Math.random() * 1000.0)
             },
             detail: {
                 type: 'f',
-                value: Math.random() * 3.5 + 5
+                value: (Math.random() * 3.5 + 5)
             },
             opacity: {
                 type: 'f',
@@ -86,7 +87,8 @@ fire.prototype.setDetail = function (value) {
 };
 
 fire.prototype.update = function (timeDiff) {
-    this.material.uniforms['time'].value += .0005 * timeDiff * this.flowRatio;
+    this.material.uniforms['time'].value += 0.0005 * timeDiff * this.flowRatio;
+
 };
 
 fire.prototype.setFlowRatio = function (val) {
