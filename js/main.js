@@ -102,10 +102,10 @@ function init() {
     //myTest();
 
     //多线程测试
-    //workerTest();
+    workerTest();
 
     //火焰测试
-    fireTest();
+    //fireTest();
 }
 
 function onWindowResize() {
@@ -146,11 +146,22 @@ function frustumCullingUpdate()
 function workerTest()
 {
     worker = new Worker('js/worker.js');
-    worker.postMessage("这是主线程向子线程的第一次post测试");
+    let i =0;
     worker.onmessage = function (event)
     {
         console.log("主线程接收到自线程消息:"+event.data);
+        worker.postMessage("这是主线程向子线程的第2次post测试");
+        i++;
     }
+    worker.postMessage("这是主线程向子线程的第1次post测试");
+
+
+    // while(true)
+    // {
+    //     worker.postMessage("这是主线程向子线程的第"+i+"次post测试");
+    //     i++;
+    // }
+
 }
 
 function fireTest()

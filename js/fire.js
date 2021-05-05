@@ -11,7 +11,7 @@ var fire = function () {
 
 fire.prototype.init = function (radius)
 {
-    //火球的生成
+    //这里的uniforms会在glsl中被作为参数读取，uniforms在片段和顶点着色器中都可以被访问
     this.material = new THREE.ShaderMaterial({
         uniforms: {
             time: {
