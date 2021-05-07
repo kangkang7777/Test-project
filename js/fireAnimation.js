@@ -1,14 +1,16 @@
 var fireAnimation = function () {
+    this.fireScale = 2;//整个火焰模型的整体scale
     fireAnimation.STATE_BEFORE_START = 0;
     fireAnimation.STATE_SPAWN = 1;
     fireAnimation.STATE_SPAWN_DOWN = 2;
     fireAnimation.STATE_FLOATING = 3;
     fireAnimation.STATE_IDLE = 4;
-    fireAnimation.BEFORE_INTERVAL = 300;
-    fireAnimation.SPAWN_INTERVAL = 400;
-    fireAnimation.SPAWN_DOWN_INTERVAL = 2000;
-    fireAnimation.FLOATING_INTERVAL = 8000;
-    fireAnimation.IDLE_INTERVAL = 20000;
+    fireAnimation.BEFORE_INTERVAL = 300 * this.fireScale;
+    fireAnimation.SPAWN_INTERVAL = 400 * this.fireScale;
+    fireAnimation.SPAWN_DOWN_INTERVAL = 2000 * this.fireScale;
+    fireAnimation.FLOATING_INTERVAL = 8000 * this.fireScale;
+    fireAnimation.IDLE_INTERVAL = 20000 * this.fireScale;
+
 
     this.params = {
         LightColor2 : '#ff8700',
@@ -27,20 +29,24 @@ var fireAnimation = function () {
 }
 
 fireAnimation.prototype.init = function(instance, distX, distZ, yRatio, animationTimeRatio) {
-        distX = distX || 0;
-        distZ = distZ || 0;
-        yRatio = yRatio || 1;
-        animationTimeRatio = animationTimeRatio || 1;
+         //distX = distX || 0;
+        // distZ = distZ || 0;
+        // yRatio = yRatio || 1;
+        // animationTimeRatio = animationTimeRatio || 1;
         this.instance = instance;
+        // this.distX = distX * this.fireScale;
+        // this.distZ = distZ * this.fireScale;
+        // this.yRatio = yRatio * this.fireScale;
         this.distX = distX;
         this.distZ = distZ;
-        this.yRatio = yRatio;
+        this.yRatio = yRatio * this.fireScale;
         this.animationTimeRatio = animationTimeRatio;
         this.reset();
     }
 
 fireAnimation.prototype.setColor = function () {
-    let tc = this.timeCount + this.colorTransitionRandom;
+    //设置火球颜色变化
+    let tc = (this.timeCount + this.colorTransitionRandom)/this.fireScale;
     if (tc < 2500 + this.colorTransitionRandom) {
         let t = tc / 2500 + this.colorTransitionRandom;
         this.instance.setColor({
