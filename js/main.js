@@ -9,6 +9,8 @@ let stats = new Stats();
 let Fire;
 let vertexFlameShader = null;
 let fragmentFlameShader = null;
+let vertexParticleShader = null;
+let fragmentParticleShader = null;
 //火焰的默认位置
 let pos = (0,0,0);
 
@@ -73,7 +75,7 @@ function init() {
 
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog( 0x555555, 1, 15000 );
-    scene.background = new THREE.Color(0xf8f8f8);
+    scene.background = new THREE.Color(0xffffff);
 
     const pointLight = new THREE.PointLight( 0xffffff );
     pointLight.position.set( 0, 0, 0 );
@@ -118,7 +120,7 @@ function animate() {
 
         stats.begin();
         Fire.update(20);
-        camControl.update(5);
+        camControl.update(20);
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
         //frustumCullingUpdate();

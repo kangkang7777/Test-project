@@ -15,6 +15,8 @@ var fireControl = function ()
         ShowGrid : true
     };
     this.finished = false;
+    this.flareParticle = new FlareParticle();
+
 }
 
 fireControl.prototype.init = function ()
@@ -24,15 +26,21 @@ fireControl.prototype.init = function ()
     let loader = new THREE.FileLoader(THREE.DefaultLoadingManager);
     loader.load("./shader/fragmentFlameShader.glsl", function(str1){
         loader.load("./shader/vertexFlameShader.glsl", function(str2){
-            fragmentFlameShader = str1;
-            vertexFlameShader = str2;
-            scope.objs = [];
-            scope.objectPool = [];
-            scope.spawnTime = 0;
-            //this.flareParticle = new flareParticle_1.FlareParticle();
-            scope.spawnNewFlame();
-            scope.reset();
-            scope.finished = true;
+            loader.load("./shader/fragmentParticleShader.glsl", function(str3){
+                loader.load("./shader/vertexParticleShader.glsl", function(str4){
+                    fragmentFlameShader = str1;
+                    vertexFlameShader = str2;
+                    fragmentParticleShader = str3;
+                    vertexParticleShader = str4;
+                    scope.objs = [];
+                    scope.objectPool = [];
+                    scope.spawnTime = 0;
+                    scope.flareParticle.init();
+                    scope.spawnNewFlame();
+                    scope.reset();
+                    scope.finished = true;
+                });
+            });
         });
     });
 }
@@ -44,7 +52,7 @@ fireControl.prototype.reset = function () {
     }
     this.objectPool = [];
     this.objs = [];
-    //this.flareParticle.reset();
+    this.flareParticle.reset();
 };
 
 fireControl.prototype.spawnNewFlame = function ()
@@ -89,5 +97,5 @@ fireControl.prototype.update = function (deltaTime)
             }
         }
     }
-    //this.flareParticle.update(deltaTime * timeScale);
+    this.flareParticle.update(deltaTime * this.params.TimeScale);
 }
